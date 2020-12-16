@@ -1,0 +1,349 @@
+<Atlas_IoTDDL>
+	<Atlas_Thing>
+		<Descriptive_Metadata>
+			<Thing_ATID>MySmartThing01</Thing_ATID>
+			<Thing_Name></Thing_Name>
+			<Thing_Owner></Thing_Owner>
+			<Thing_Vendor></Thing_Vendor>
+			<Thing_Model></Thing_Model>
+			<Thing_ReleaseDate>8/2020</Thing_ReleaseDate>
+			<Thing_Type></Thing_Type>
+			<Thing_OperatingSystem></Thing_OperatingSystem>
+			<Thing_ShortDescription></Thing_ShortDescription>
+			<LongDescription></LongDescription>
+			<Thing_SSID>MySmartSpace</Thing_SSID>
+			<Space_Coordinates></Space_Coordinates>
+			<Space_Name></Space_Name>
+			<Space_Description></Space_Description>
+			<Space_Constraints>
+				<Temperature>
+					<Lower_Bound></Lower_Bound>
+					<Upper_Bound></Upper_Bound>
+				</Temperature>
+				<Humidity>
+					<Lower_Bound></Lower_Bound>
+					<Upper_Bound></Upper_Bound>
+				</Humidity>
+				<Voltage>
+					<Lower_Bound></Lower_Bound>
+					<Upper_Bound></Upper_Bound>
+				</Voltage>
+				<Radio_Interference_Radius></Radio_Interference_Radius>
+				<Safe_Temperature_Radius></Safe_Temperature_Radius>
+			</Space_Constraints>
+		</Descriptive_Metadata>
+		<Administrative_Metadata>
+			<Network_Manager>
+				<Module></Module>
+				<Type></Type>
+				<Network_Name>MySpaceNetwork</Network_Name>
+				<Network_Passcode>MySpaceNetwork</Network_Passcode>
+				<MulticastGroup>
+					<IP>232.1.1.1</IP>
+					<Port>1235</Port>
+				</MulticastGroup>
+				<Communication_Protocol></Communication_Protocol>
+				<InterOperableCommunication>
+					<Broker>
+						<Vendor>HiveMQ</Vendor>
+						<Dashboard>http://www.mqtt-dashboard.com/</Dashboard>
+						<IP>broker.hivemq.com</IP>
+						<Port>1883</Port>
+					</Broker>
+					<Topic>
+						<Root>/Atlas</Root>
+						<Network_MQTTClient>/Network/MQTT_Client</Network_MQTTClient>
+						<Network_PrivateBroker>/Network/Private_Broker</Network_PrivateBroker>
+						<Multicast_ThingIdentity>/Multicast/Tweet_ThingIdentity</Multicast_ThingIdentity>
+						<Multicast_EntityIdentity>/Multicast/Tweet_EntityIdentity</Multicast_EntityIdentity>
+						<Multicast_API>/Multicast/API</Multicast_API>
+						<Unicast>/Unicast/Interaction</Unicast>
+					</Topic>
+				</InterOperableCommunication>
+				<OMA_DM>
+					<AccessName>Eclipse Leshan</AccessName>
+					<IP>coap://leshan.eclipseprojects.io</IP>
+					<Port>5683</Port>
+				</OMA_DM>
+			</Network_Manager>
+			<Memory_Manager>
+				<Store_Format></Store_Format>
+				<MemoryUnit_Application></MemoryUnit_Application>
+				<MemoryUnit_Knowledge></MemoryUnit_Knowledge>
+			</Memory_Manager>
+		</Administrative_Metadata>
+		<Thing_Attachment>
+
+		</Thing_Attachment>
+		<Structural_Metadata>
+			<Number_Hardware>0</Number_Hardware>
+			<Number_Software>0</Number_Software>
+			<Number_Hybrid>0</Number_Hybrid>
+			<Number_Entities>2</Number_Entities>
+		</Structural_Metadata>
+	</Atlas_Thing>
+	<Atlas_Entities>
+		<Entity_1>
+			<Descriptive_Metadata>
+				<ID>buzzer</ID>
+				<Name></Name>
+				<Owner></Owner>
+				<Vendor></Vendor>
+				<Category></Category>
+				<Type></Type>
+				<Description></Description>
+			</Descriptive_Metadata>
+			<Services>
+				<Service_1>
+					<Name>buzzerRing</Name>
+					<AppCategory></AppCategory>
+					<Type></Type>
+					<Keywords></Keywords>
+					<Description></Description>
+					<Contextual_Constraints>
+						<Time_Window>30seconds</Time_Window>
+						<Usage_Mode></Usage_Mode>
+						<Concurrent></Concurrent>
+					</Contextual_Constraints>
+					<Temporal_Constraints>
+						<Working>
+							<StartTime>6am</StartTime>
+							<EndTime>10pm</EndTime>
+						</Working>
+						<Callable>
+							<StartTime>6:30am</StartTime>
+							<EndTime>9:30pm</EndTime>
+						</Callable>
+					</Temporal_Constraints>
+					<OutputDescription></OutputDescription>
+					<OutputType>void</OutputType>
+					<Service_Formula><![CDATA[
+// ~ Service body C/C++ code block ~
+// You can use the inputs you defined above by name
+// Any return values should match the specified output type
+int BeepPin = 17;
+int LED = 18;
+int  BTN = 27;
+wiringPiSetupGpio();
+pinMode(BeepPin,OUTPUT);
+pinMode(LED, OUTPUT);
+pinMode(BTN, INPUT);
+bool button_state = false;
+bool last_state = false;
+for (int i=0;i<200;i++) 
+{
+    Delay(100);
+	button_state = digitalRead(BTN);
+	if (button_state != last_state)
+	{
+	    Delay(20);
+	    if (button_state == HIGH)
+		{
+	        DigitalWrite_High(17);
+	        DigitalWrite_High(18);
+print_string(\"Detected Press. Start buzzing and lighting.\");
+		}
+		else
+		{
+		    DigitalWrite_Low(17);
+		    DigitalWrite_Low(18);
+		}
+	}
+	last_state = button_state;
+}
+
+
+
+]]></Service_Formula>
+					<Service_NumberInputs>0</Service_NumberInputs>
+					<Service_InputTypes></Service_InputTypes>
+					<Service_InputDescriptions></Service_InputDescriptions>
+				</Service_1>
+				<Service_2>
+					<Name>buzzerMusic</Name>
+					<AppCategory></AppCategory>
+					<Type></Type>
+					<Keywords></Keywords>
+					<Description></Description>
+					<Contextual_Constraints>
+						<Time_Window>30seconds</Time_Window>
+						<Usage_Mode></Usage_Mode>
+						<Concurrent></Concurrent>
+					</Contextual_Constraints>
+					<Temporal_Constraints>
+						<Working>
+							<StartTime>6am</StartTime>
+							<EndTime>10pm</EndTime>
+						</Working>
+						<Callable>
+							<StartTime>6:30am</StartTime>
+							<EndTime>9:30pm</EndTime>
+						</Callable>
+					</Temporal_Constraints>
+					<OutputDescription></OutputDescription>
+					<OutputType>void</OutputType>
+					<Service_Formula><![CDATA[
+// ~ Service body C/C++ code block ~
+// You can use the inputs you defined above by name
+// Any return values should match the specified output type
+int BeepPin = 17;
+wiringPiSetupGpio();
+pinMode(BeepPin,OUTPUT);
+int notes[] = { 262,294,330,262,262,294,330,262,330,349,392,330,349,392,392,440,392,349,330,262,392,440,392,349,330,262,262,196,262,262,196,262};
+float duration[] = { 0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,1,0.5,0.5,1,0.25,0.25,0.25,0.25,0.5,0.5,0.25,0.25,0.25,0.25,0.5,0.5,0.5,0.5,1,0.5,0.5,1 };
+for (int k = 0; k < 32; k++)
+{
+	//beep(notes[i],duration[i]*1000);
+    long beepDelay = (long)(1000000 / notes[k]);
+	//This is how much time we need to spend on the note.
+	long time = (long)((duration[k] * 1000000) / (beepDelay * 2));
+	for (int i = 0; i < time; i++)
+	{
+		//1st semiperiod
+		DigitalWrite_High(17);
+		Delay(beepDelay/1000);
+	    DigitalWrite_Low(17);
+	    Delay(beepDelay/1000);
+	}
+
+	//Add a little delay to separate the single notes
+	DigitalWrite_Low(17);
+	Delay(20);
+}
+
+]]></Service_Formula>
+					<Service_NumberInputs>0</Service_NumberInputs>
+					<Service_InputTypes></Service_InputTypes>
+					<Service_InputDescriptions></Service_InputDescriptions>
+				</Service_2>
+				<Number_Services>2</Number_Services>
+			</Services>
+			<UnboundedService>
+				<Number_UnboundedServices>0</Number_UnboundedServices>
+			</UnboundedService>
+			<Relationships>
+				<Number_Relationships>0</Number_Relationships>
+			</Relationships>
+		</Entity_1>
+		<Entity_2>
+			<Descriptive_Metadata>
+				<ID>sound</ID>
+				<Name></Name>
+				<Owner></Owner>
+				<Vendor></Vendor>
+				<Category></Category>
+				<Type></Type>
+				<Description></Description>
+			</Descriptive_Metadata>
+			<Services>
+				<Service_1>
+					<Name>sound</Name>
+					<AppCategory></AppCategory>
+					<Type></Type>
+					<Keywords></Keywords>
+					<Description></Description>
+					<Contextual_Constraints>
+						<Time_Window>30seconds</Time_Window>
+						<Usage_Mode></Usage_Mode>
+						<Concurrent></Concurrent>
+					</Contextual_Constraints>
+					<Temporal_Constraints>
+						<Working>
+							<StartTime>6am</StartTime>
+							<EndTime>10pm</EndTime>
+						</Working>
+						<Callable>
+							<StartTime>6:30am</StartTime>
+							<EndTime>9:30pm</EndTime>
+						</Callable>
+					</Temporal_Constraints>
+					<OutputDescription></OutputDescription>
+					<OutputType>void</OutputType>
+					<Service_Formula><![CDATA[
+// ~ Service body C/C++ code block ~
+// You can use the inputs you defined above by name
+// Any return values should match the specified output type
+int Pin = 22;
+wiringPiSetupGpio();
+pinMode( Pin, INPUT );
+for(int i=0;i<50;i++) 
+{
+if(digitalRead(Pin)==HIGH)
+print_string(\"Make a sound.\");
+else
+print_string(\"No sound.\");
+Delay(200);
+}
+
+]]></Service_Formula>
+					<Service_NumberInputs>0</Service_NumberInputs>
+					<Service_InputTypes></Service_InputTypes>
+					<Service_InputDescriptions></Service_InputDescriptions>
+				</Service_1>
+				<Service_2>
+					<Name>rapidSound</Name>
+					<AppCategory></AppCategory>
+					<Type></Type>
+					<Keywords></Keywords>
+					<Description></Description>
+					<Contextual_Constraints>
+						<Time_Window>30seconds</Time_Window>
+						<Usage_Mode></Usage_Mode>
+						<Concurrent></Concurrent>
+					</Contextual_Constraints>
+					<Temporal_Constraints>
+						<Working>
+							<StartTime>6am</StartTime>
+							<EndTime>10pm</EndTime>
+						</Working>
+						<Callable>
+							<StartTime>6:30am</StartTime>
+							<EndTime>9:30pm</EndTime>
+						</Callable>
+					</Temporal_Constraints>
+					<OutputDescription></OutputDescription>
+					<OutputType>void</OutputType>
+					<Service_Formula><![CDATA[
+// ~ Service body C/C++ code block ~
+// You can use the inputs you defined above by name
+// Any return values should match the specified output type
+int Pin = 22;
+wiringPiSetupGpio();
+pinMode(Pin,INPUT);
+int i = 0;
+int m = 0;
+for(int k=0;k<50;k++)
+{
+	if (digitalRead(Pin) == HIGH)
+	{
+		m++;
+	}
+	if(i==5)
+	{	
+		i = 0;
+		if(m > 2)
+		{
+print_string(\"Make a rapid sound.\");
+			m = 0;
+		}
+	}
+	Delay(200);
+	i++;
+}
+
+]]></Service_Formula>
+					<Service_NumberInputs>0</Service_NumberInputs>
+					<Service_InputTypes></Service_InputTypes>
+					<Service_InputDescriptions></Service_InputDescriptions>
+				</Service_2>
+				<Number_Services>2</Number_Services>
+			</Services>
+			<UnboundedService>
+				<Number_UnboundedServices>0</Number_UnboundedServices>
+			</UnboundedService>
+			<Relationships>
+				<Number_Relationships>0</Number_Relationships>
+			</Relationships>
+		</Entity_2>
+	</Atlas_Entities>
+</Atlas_IoTDDL>
